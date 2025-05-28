@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: secret
+  application:
+    name: dividend
+  cloud:
+    openfeign:
+      client:
+        config:
+          dividendService:
+            url: http://pythonapi:8000

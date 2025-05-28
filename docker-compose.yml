@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pythonapi
+
+  pythonapi:
+    build: ./dividend-python-service
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"   # 本番用（nginxで80番を3000番にマッピング）
+    depends_on:
+      - backend

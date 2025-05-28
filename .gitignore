@@ -1,0 +1,30 @@
+# デフォルトの無視対象ファイル
+/shelf/
+/workspace.xml
+# 環境に依存する Maven ホームディレクトリのパス
+/mavenHomeManager.xml
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Java
+/backend/target/
+/backend/.idea/
+/backend/.mvn/
+
+# Python
+/dividend-python-service/venv/
+/dividend-python-service/__pycache__/
+
+# Node/React
+/frontend/node_modules/
+/frontend/build/
+/frontend/.idea/
+
+# 共通
+.DS_Store
+*.log
+.env
