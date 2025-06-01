@@ -1,21 +1,13 @@
 package io.github.ryang_ryota.dividend.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
 public class DividendRawResponse {
-    private List<DividendItem> dividends; // 配当履歴
-    private Double currentPrice;
+    private String stockCode;
+    private String stockName;
+    private Double actualDividend;
+    private Double forecastDividend;
+    private Double previousClose;
     private Double dividendYield;
-
-    @Getter
-    @Setter
-    public static class DividendItem {
-        private String date; // "YYYY-MM-DD"
-        private Double amount;
-    }
 }

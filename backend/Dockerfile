@@ -1,12 +1,14 @@
-# Mavenビルド用イメージ
+## Mavenビルド用イメージ
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
-COPY . .
+COPY pom.xml .
+COPY src ./src
 RUN mvn clean package -DskipTests
 
-# 実行用イメージ
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jdk
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Devtoolsのリモート起動を有効化
+EXPOSE 8080 35729
+ENTRYPOINT ["java", "-Dspring.devtools.restart.enabled=true", "-Dspring.devtools.livereload.enabled=true", "-jar", "app.jar"]

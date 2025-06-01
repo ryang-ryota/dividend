@@ -4,8 +4,26 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
+      - "35729:35729"  # LiveReload用
     depends_on:
-      - pythonapi
+      db:
+        condition: service_healthy
+      pythonapi:
+        condition: service_started
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/pom.xml:/app/pom.xml
+      - ./backend/target/classes:/app/target/classes
+      - ~/.m2:/root/.m2
+    command: mvn spring-boot:run
+    develop:
+      watch:
+        - action: sync
+          path: ./spring/src
+          target: /app/src
+        - action: sync
+          path: ./spring/target/classes
+          target: /app/target/classes
 
   pythonapi:
     build: ./dividend-python-service
@@ -13,8 +31,37 @@ services:
       - "8000:8000"
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      target: development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     ports:
-      - "3000:80"   # 本番用（nginxで80番を3000番にマッピング）
+      - "3000:3000"
+    command: npm start
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # ホットリロードを安定させる
     depends_on:
       - backend
+
+  db:
+    image: postgres:17
+    container_name: db
+    environment:
+      POSTGRES_DB: dividend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d  # 初期データ投入用SQL配置ディレクトリ
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
