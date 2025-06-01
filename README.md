@@ -1,6 +1,8 @@
 # 配当金情報表示Webシステム
 
-![dividend](https://github.com/user-attachments/assets/54d63079-7dc8-4b0e-9e50-c36362828f91)
+<div>
+  <video controls src="https://github.com/user-attachments/assets/5bc25adf-d963-488e-bbb2-b62cced32d33" muted="false" style="max-width: 100%;"></video>
+</div>
 
 ## 概要
 - 学習目的で開発しています。
@@ -8,7 +10,7 @@
 - Spring Boot（Java）、FastAPI（Python）、React（TypeScript）をDocker Composeで統合しています。
 
 ## ディレクトリ構成
-- `/backend-spring` ... Spring Boot（APIゲートウェイ・ビジネスロジック）
+- `/backend` ... Spring Boot（APIゲートウェイ・ビジネスロジック）
 - `/dividend-python-service` ... FastAPI（yfinanceで配当金データ取得）
 - `/frontend` ... React（SPAフロントエンド）
 
